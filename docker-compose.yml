@@ -5,7 +5,8 @@ version: '2'
 services:
 # Apache image.
   apache:
-    image: docker/drupal-apache
+    build:
+      context: ./docker/drupal-apache
     ports:
       - "8080:80"
     volumes:
@@ -15,16 +16,18 @@ services:
 
 # PHP image.
   php:
-    image: docker/drupal-phpfpm
+    build:
+      context: ./docker/drupal-phpfpm
     ports:
       - "9001"
     volumes:
       - ./web:/var/www
     links:
-      - db
+      - mysql
 
 # MySQL image.
   mysql:
-    image: docker/drupal-mysql
+    build:
+      context: ./docker/drupal-mysql
     ports:
       - "3306:3306"
