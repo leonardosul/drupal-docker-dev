@@ -1,0 +1,30 @@
+# Services required for Drupal - Apache, PHP-FPM, MySQL
+
+version: '2'
+
+services:
+# Apache image.
+  apache:
+    image: docker/drupal-apache
+    ports:
+      - "8080:80"
+    volumes:
+      - ./web:/var/www
+    links:
+      - php
+
+# PHP image.
+  php:
+    image: docker/drupal-phpfpm
+    ports:
+      - "9001"
+    volumes:
+      - ./web:/var/www
+    links:
+      - db
+
+# MySQL image.
+  mysql:
+    image: docker/drupal-mysql
+    ports:
+      - "3306:3306"
