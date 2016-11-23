@@ -1,0 +1,46 @@
+{
+  "name": "drupal-docker-dev/drupal-project",
+  "description": "Boilerplate site for Drupal 8 projects.",
+  "type": "project",
+  "license": "GPL-2.0+",
+  "authors": [
+    {
+      "name": "Leonard O' Sullivan",
+      "role": "Master of Awesomeness"
+    }
+  ],
+  "repositories": [
+    {
+      "type": "composer",
+      "url": "https://packages.drupal.org/8"
+    }
+  ],
+  "require": {
+    "composer/installers": "^1.2",
+    "drupal-composer/drupal-scaffold": "^2.2",
+    "cweagans/composer-patches": "~1.0",
+    "drupal/core": "~8.0",
+    "drush/drush": "~8.0",
+    "drupal/console": "~1.0"
+  },
+  "require-dev": {
+  },
+  "conflict": {
+  },
+  "minimum-stability": "dev",
+  "prefer-stable": true,
+  "autoload": {
+  },
+  "scripts": {
+  },
+  "extra": {
+    "installer-paths": {
+      "web/core": ["type:drupal-core"],
+      "web/libraries/{$name}": ["type:drupal-library"],
+      "web/modules/contrib/{$name}": ["type:drupal-module"],
+      "web/profiles/contrib/{$name}": ["type:drupal-profile"],
+      "web/themes/contrib/{$name}": ["type:drupal-theme"],
+      "drush/contrib/{$name}": ["type:drupal-drush"]
+    }
+  }
+}

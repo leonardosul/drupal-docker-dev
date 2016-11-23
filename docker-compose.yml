@@ -10,7 +10,7 @@ services:
     ports:
       - "8080:80"
     volumes:
-      - ./web:/var/www
+      - .:/var/www
     links:
       - php
 
@@ -21,7 +21,7 @@ services:
     ports:
       - "9001"
     volumes:
-      - ./web:/var/www
+      - .:/var/www
     links:
       - mysql
 
