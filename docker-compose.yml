@@ -13,6 +13,7 @@ services:
       - .:/var/www
     links:
       - php
+    container_name: drupal-apache
 
 # PHP image.
   php:
@@ -22,8 +23,10 @@ services:
       - "9001"
     volumes:
       - .:/var/www
+      - ~/.composer/cache:/composer/cache
     links:
       - mysql
+    container_name: drupal-php
 
 # MySQL image.
   mysql:
@@ -31,3 +34,4 @@ services:
       context: ./docker/drupal-mysql
     ports:
       - "3306:3306"
+    container_name: drupal-mysql
