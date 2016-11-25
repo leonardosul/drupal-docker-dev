@@ -1,3 +1,5 @@
 # PHPStorm Stuff
 .idea
 vendor
+web
+composer.lock
