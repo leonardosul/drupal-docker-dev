@@ -17,7 +17,5 @@ RUN echo 'deb http://packages.dotdeb.org jessie all' >> /etc/apt/sources.list &&
     apt-get install php7.0-zip -y && \
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-
-
-
-WORKDIR /var/www
+# Directory to serve files from
+WORKDIR /var/www/web
