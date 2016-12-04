@@ -3,8 +3,8 @@
 version: '2'
 
 services:
-# Apache image.
-  apache:
+# Apache container.
+  drupal-apache:
     build:
       context: ./docker/drupal-apache
     ports:
@@ -12,26 +12,36 @@ services:
     volumes:
       - .:/var/www
     links:
-      - php
+      - drupal-php
     container_name: drupal-apache
 
-# PHP image.
-  php:
+# PHP container.
+  drupal-php:
     build:
       context: ./docker/drupal-phpfpm
     ports:
       - "9001"
     volumes:
       - .:/var/www
-      - ~/.composer/cache:/composer/cache
     links:
-      - mysql
+      - drupal-mysql
     container_name: drupal-php
 
 # MySQL image.
-  mysql:
+  drupal-mysql:
     build:
       context: ./docker/drupal-mysql
     ports:
       - "3306:3306"
     container_name: drupal-mysql
+    env_file:
+      - ./docker/drupal-mysql/mysql-variables.env
+
+# HHVM Comopser container.
+  drupal-hhvm-composer:
+    build:
+      context: ./docker/drupal-hhvm-composer
+    volumes:
+      - .:/var/www
+      - ~/.composer/cache:/composer/cache
+    container_name: drupal-hhvm-composer
