@@ -18,4 +18,4 @@ RUN echo 'deb http://packages.dotdeb.org jessie all' >> /etc/apt/sources.list &&
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Directory to serve files from
-WORKDIR /var/www/web
+WORKDIR /var/www/

@@ -18,4 +18,4 @@ RUN a2ensite drupal-docker.conf && \
     service apache2 restart
 
 # Directory to serve files from
-WORKDIR /var/www/web
+WORKDIR /var/www
