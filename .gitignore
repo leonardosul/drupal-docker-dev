@@ -3,3 +3,6 @@
 vendor
 web
 composer.lock
+
+# HHVM Stuff
+www.pid
