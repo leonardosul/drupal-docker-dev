@@ -1,10 +1,16 @@
 # An apache server
-FROM httpd:2.4
+FROM httpd:2.2
+
+# Set up directory
+RUN mkdir -p /var/www/web && \
+    chown -R www-data:www-data /var/www/
+
+# Directory to serve files from
+WORKDIR /var/www/web
 
 # Install Apache Common
 RUN apt-get update && \
-    apt-get install apache2.2-common -y && \
-    mkdir /var/www/web
+    apt-get install apache2.2-common -y
 
 # Add a vhost
 ADD ./conf/drupal-docker.conf /etc/apache2/sites-available/
@@ -16,6 +22,3 @@ RUN a2ensite drupal-docker.conf && \
     a2enmod proxy_http && \
     a2enmod proxy_connect && \
     service apache2 restart
-
-# Directory to serve files from
-WORKDIR /var/www

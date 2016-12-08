@@ -5,7 +5,8 @@ FROM php:7.0-fpm
 RUN apt-get update && \
     apt-get install -y zlib1g-dev && \
     docker-php-ext-install zip && \
-    apt-get install git-core wget -y
+    apt-get install git-core wget -y && \
+    mkdir -p /var/www/web
 
 # Install PHP extensions and composer
 RUN echo 'deb http://packages.dotdeb.org jessie all' >> /etc/apt/sources.list && \
@@ -18,4 +19,4 @@ RUN echo 'deb http://packages.dotdeb.org jessie all' >> /etc/apt/sources.list &&
     curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 # Directory to serve files from
-WORKDIR /var/www/
+WORKDIR /var/www/web

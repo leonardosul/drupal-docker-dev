@@ -32,6 +32,13 @@
   "autoload": {
   },
   "scripts": {
+    "drupal-scaffold": "DrupalComposer\\DrupalScaffold\\Plugin::scaffold",
+    "post-install-cmd": [
+      "@drupal-scaffold"
+    ],
+    "post-update-cmd": [
+      "@drupal-scaffold"
+    ]
   },
   "extra": {
     "installer-paths": {

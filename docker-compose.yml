@@ -3,17 +3,29 @@
 version: '2'
 
 services:
-# Apache container.
-  drupal-apache:
+## Apache container.
+#  drupal-apache:
+#    build:
+#      context: ./docker/drupal-apache
+#    ports:
+#      - "8080:80"
+#    volumes:
+#      - .:/var/www
+#    links:
+#      - drupal-php
+#    container_name: drupal-apache
+
+# Nginx
+  nginx:
     build:
-      context: ./docker/drupal-apache
+      context: ./docker/drupal-nginx
     ports:
       - "8080:80"
-    volumes:
-      - .:/var/www
     links:
       - drupal-php
-    container_name: drupal-apache
+    volumes:
+      - .:/var/www
+    container_name: drupal-nginx
 
 # PHP container.
   drupal-php:
@@ -21,6 +33,7 @@ services:
       context: ./docker/drupal-phpfpm
     ports:
       - "9001"
+      - "9000:9000"
     volumes:
       - .:/var/www
     links:
