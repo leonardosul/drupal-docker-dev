@@ -34,11 +34,13 @@ services:
     ports:
       - "9001"
       - "9000:9000"
-    volumes:
-      - .:/var/www
     links:
       - drupal-mysql
     container_name: drupal-php
+    volumes:
+      - .:/var/www
+    volumes_from:
+      - drupal-mysql
 
 # MySQL image.
   drupal-mysql:
@@ -47,8 +49,16 @@ services:
     ports:
       - "3306:3306"
     container_name: drupal-mysql
-    env_file:
-      - ./docker/drupal-mysql/mysql-variables.env
+#    env_file:
+#      - ./docker/drupal-mysql/mysql-variables.env
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: drupal-db
+      MYSQL_USER: drupal-user
+      MYSQL_PASSWORD: drupal-password
+    volumes:
+      - /var/lib/mysql
+      - /usr/bin
 
 # HHVM Comopser container.
   drupal-hhvm-composer:
