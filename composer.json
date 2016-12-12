@@ -34,7 +34,7 @@
   },
   "scripts": {
     "drupal-scaffold": "DrupalComposer\\DrupalScaffold\\Plugin::scaffold",
-    "drupal-install": "./drupal-install/install.sh",
+    "drupal-install": "./scripts/drupal-install.sh",
     "post-install-cmd": [
       "@drupal-install"
     ],

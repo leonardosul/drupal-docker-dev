@@ -49,13 +49,8 @@ services:
     ports:
       - "3306:3306"
     container_name: drupal-mysql
-#    env_file:
-#      - ./docker/drupal-mysql/mysql-variables.env
-    environment:
-      - MYSQL_ROOT_PASSWORD=root
-      - MYSQL_DATABASE=drupal-db
-      - MYSQL_USER=drupal-user
-      - MYSQL_PASSWORD=drupal-password
+    env_file:
+      - ./docker/drupal-mysql/mysql-variables.env
     volumes:
       - /var/lib/mysql
       - /usr/bin
