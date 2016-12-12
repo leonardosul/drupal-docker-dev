@@ -52,10 +52,10 @@ services:
 #    env_file:
 #      - ./docker/drupal-mysql/mysql-variables.env
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: drupal-db
-      MYSQL_USER: drupal-user
-      MYSQL_PASSWORD: drupal-password
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=drupal-db
+      - MYSQL_USER=drupal-user
+      - MYSQL_PASSWORD=drupal-password
     volumes:
       - /var/lib/mysql
       - /usr/bin
