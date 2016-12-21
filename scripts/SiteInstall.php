@@ -24,16 +24,36 @@ class SiteInstall {
         }
 
         // Create PDO connection.
-        $dsn = 'mysql:' . 'dbname=' . $databaseCredentials['MYSQL_DATABASE'] . ';host=drupal-mysql';
-        $user = $databaseCredentials['MYSQL_USER'];
-        $password = $databaseCredentials['MYSQL_PASSWORD'];
+        $databaseHost = 'mysql:' . 'dbname=' . $databaseCredentials['MYSQL_DATABASE'] . ';host=drupal-mysql';
+        $databaseUser = $databaseCredentials['MYSQL_USER'];
+        $databasePassword = $databaseCredentials['MYSQL_PASSWORD'];
+        $databaseConnection = NULL;
 
         try {
-            $dbh = new PDO($dsn, $user, $password);
-            echo 'truth';
+            $databaseConnection = new PDO($databaseHost, $databaseUser, $databasePassword);
         } catch (PDOException $e) {
             echo 'Connection failed: ' . $e->getMessage();
+            return;
         }
+
+        $result = $databaseConnection->query('SELECT * FROM `node` LIMIT 1');
+
+        if (!empty($result)) {
+            echo 'Database found, cannot install.' . $result;
+            return;
+        }
+        else {
+            echo $result;
+            echo $databaseConnection->errorInfo();
+
+            foreach($databaseConnection->errorInfo() as $err) {
+                echo $err;
+            }
+            // If we get this far we should be able to install teh db, lets call the shell script.
+            $output = shell_exec('./drupal-install.sh');
+            echo $output;
+        }
+
     }
 
 }
