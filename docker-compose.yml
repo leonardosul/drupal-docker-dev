@@ -27,7 +27,7 @@ services:
       - drupal-mysql
     container_name: drupal-php
     env_file:
-      - ./docker/drupal-phpfpm/php-variables.env
+      - ./docker/drupal-phpfpm/conf/php-variables.env
     volumes:
       - .:/var/www
     volumes_from:

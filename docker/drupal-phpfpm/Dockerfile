@@ -26,7 +26,11 @@ RUN pecl install xdebug -y && \
     echo "xdebug.remote_port=9001" >> /usr/local/etc/php/conf.d/xdebug.ini && \
     echo "xdebug.remote_autostart=true" >> /usr/local/etc/php/conf.d/xdebug.ini
 
+# Add drush to path
 ENV PATH $PATH:/var/www/vendor/drush/drush
+
+# Add drush alias for our site
+ADD ./conf/ddd.alias.drushrc.php /root/.drush/
 
 # Directory to serve files from
 WORKDIR /var/www
