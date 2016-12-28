@@ -36,10 +36,11 @@ class SiteInstall {
             return;
         }
 
+        // Check to see if there is anything in the node table.
         $result = $databaseConnection->query('SELECT * FROM `node` LIMIT 1');
 
         if (!empty($result)) {
-            echo 'Database found, cannot install.' . $result;
+            echo "Database found, cannot install.\r\n";
             return;
         }
         else {
