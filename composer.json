@@ -31,10 +31,13 @@
   "minimum-stability": "dev",
   "prefer-stable": true,
   "autoload": {
+    "psr-4": {
+      "DrupalDockerDev\\Scripts\\": "scripts/"
+    }
   },
   "scripts": {
     "drupal-scaffold": "DrupalComposer\\DrupalScaffold\\Plugin::scaffold",
-    "drupal-install": "./scripts/drupal-install.sh",
+    "drupal-install": "DrupalDockerDev\\Scripts\\SiteInstall::install",
     "post-install-cmd": [
       "@drupal-install"
     ],

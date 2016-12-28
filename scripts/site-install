@@ -1,0 +1,2 @@
+#!/usr/bin/env bash
+php /var/www/scripts/SiteInstall.php
