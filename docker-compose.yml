@@ -37,6 +37,8 @@ services:
     links:
       - drupal-mysql
     container_name: drupal-php
+    env_file:
+      - ./docker/drupal-phpfpm/php-variables.env
     volumes:
       - .:/var/www
     volumes_from:
