@@ -15,7 +15,7 @@ class SiteInstall {
     public function install() {
 
         $databaseCredentials = [];
-        $databaseFile =  file_get_contents('../docker/drupal-mysql/mysql-variables.env');
+        $databaseFile =  file_get_contents('/var/www/docker/drupal-mysql/mysql-variables.env');
         $credentialRows = explode(PHP_EOL, $databaseFile);
 
         foreach ($credentialRows as $credentialRow) {
@@ -37,21 +37,19 @@ class SiteInstall {
         }
 
         // Check to see if there is anything in the node table.
-        $result = $databaseConnection->query('SELECT * FROM `node` LIMIT 1');
+        $userQuery = 'SELECT * FROM users';
+        $request = $databaseConnection->prepare($userQuery);
+        $result = $request->execute();
+        $rowCount = $request->rowCount();
 
-        if (!empty($result)) {
+        if ($rowCount >= 4) {
             echo "Database found, cannot install.\r\n";
             return;
         }
         else {
-            echo $result;
-            echo $databaseConnection->errorInfo();
 
-            foreach($databaseConnection->errorInfo() as $err) {
-                echo $err;
-            }
-            // If we get this far we should be able to install teh db, lets call the shell script.
-            $output = shell_exec('./drupal-install.sh');
+            // If we get this far we should be able to install the db, lets call the shell script.
+            $output = shell_exec('/var/www/scripts/drupal-install.sh');
             echo $output;
         }
 

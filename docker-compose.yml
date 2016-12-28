@@ -3,19 +3,8 @@
 version: '2'
 
 services:
-## Apache container.
-#  drupal-apache:
-#    build:
-#      context: ./docker/drupal-apache
-#    ports:
-#      - "8080:80"
-#    volumes:
-#      - .:/var/www
-#    links:
-#      - drupal-php
-#    container_name: drupal-apache
 
-# Nginx
+# Nginx container.
   nginx:
     build:
       context: ./docker/drupal-nginx
@@ -44,7 +33,7 @@ services:
     volumes_from:
       - drupal-mysql
 
-# MySQL image.
+# MySQL container.
   drupal-mysql:
     build:
       context: ./docker/drupal-mysql
@@ -57,11 +46,23 @@ services:
       - /var/lib/mysql
       - /usr/bin
 
-# HHVM Comopser container.
-  drupal-hhvm-composer:
-    build:
-      context: ./docker/drupal-hhvm-composer
-    volumes:
-      - .:/var/www
-      - ~/.composer/cache:/composer/cache
-    container_name: drupal-hhvm-composer
+## Apache container.
+#  drupal-apache:
+#    build:
+#      context: ./docker/drupal-apache
+#    ports:
+#      - "8080:80"
+#    volumes:
+#      - .:/var/www
+#    links:
+#      - drupal-php
+#    container_name: drupal-apache
+
+## HHVM Composer container.
+#  drupal-hhvm-composer:
+#    build:
+#      context: ./docker/drupal-hhvm-composer
+#    volumes:
+#      - .:/var/www
+#      - ~/.composer/cache:/composer/cache
+#    container_name: drupal-hhvm-composer
