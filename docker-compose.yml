@@ -41,7 +41,7 @@ services:
       - "3306:3306"
     container_name: drupal-mysql
     env_file:
-      - ./docker/drupal-mysql/mysql-variables.env
+      - ./docker/drupal-mysql/conf/mysql-variables.env
     volumes:
       - /var/lib/mysql
       - /usr/bin
