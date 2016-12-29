@@ -28,10 +28,10 @@ class SiteInstall {
   /**
    * Checks for installed site, and then performs install if required.
    */
-  public function install() {
+  public static function install() {
 
     $databaseCredentials = [];
-    $databaseFile =  file_get_contents('/var/www/docker/drupal-mysql/mysql-variables.env');
+    $databaseFile =  file_get_contents('/var/www/docker/drupal-mysql/conf/mysql-variables.env');
     $credentialRows = explode(PHP_EOL, $databaseFile);
 
     foreach ($credentialRows as $credentialRow) {
