@@ -4,6 +4,7 @@ namespace DrupalDockerDev\Scripts;
 
 use PDO;
 use PDOException;
+use DrupalDockerDev\Scripts\Input;
 
 /**
  * Installs a drupal site if one is not already installed.
@@ -60,8 +61,10 @@ class SiteInstall {
     if ($rowCount >= 1) {
       echo "Existing Database found.\r\nOptions:\r\n[0] Abort Site Install\r\n[1] Install New Site Anyway\r\n";
 
+      $read = new Input();
+
       // Ask the user what they would like to do.
-      $choice = $this->readStdin("Please make your choice: \r\n", array('', '0', '1'));
+      $choice = $read->readStdin("Please make your choice: \r\n", array('', '0', '1'));
 
       if ($choice == 0) {
         echo "Keeping previously installed site.\r\n";
@@ -69,19 +72,16 @@ class SiteInstall {
       if ($choice == 1) {
         // If we get this far we should be able to install the db, lets call the shell script.
         echo "Installing new Drupal site.\r\n";
-        $output = shell_exec('/var/www/scripts/drupal-database-install');
+        $output = shell_exec('/var/www/scripts/drupal-database-install 2>&1');
         echo $output;
       }
     }
     else {
       echo "No database detected, lets try a fresh site install.\r\n";
-      $output = shell_exec('/var/www/scripts/drupal-database-install');
+      $output = shell_exec('/var/www/scripts/drupal-database-install 2>&1');
       echo $output;
     }
 
   }
 
 }
-
-$SiteInstaller = new SiteInstall();
-$SiteInstaller->install();
