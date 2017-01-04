@@ -52,14 +52,21 @@ class SiteInstall {
       return;
     }
 
-    // Check to see if there is anything in the node table.
+    // Check to see if there is anything in the users table.
     $userQuery = 'SELECT * FROM users';
     $request = $databaseConnection->prepare($userQuery);
     $request->execute();
     $rowCount = $request->rowCount();
 
     if ($rowCount >= 1) {
-      echo "Existing Database found.\r\nOptions:\r\n[0] Abort Site Install\r\n[1] Install New Site Anyway\r\n[2] Backup Current DB\r\n[3] Backup Current DB and then Install New Site\r\n";
+      echo "Existing Database found.\r\n"
+        . "Options:\r\n"
+        . "[0] Abort Site Install\r\n"
+        . "[1] Install New Site Anyway\r\n"
+        . "[2] Backup Current DB\r\n"
+        . "[3] Backup Current DB and then Install New Site\r\n"
+        . "[4] Revert to Previous Backup\r\n"
+        . "[5] Backup Current DB and then Revert to Previous Backup\r\n";
 
       /**
        * Input object.
@@ -68,7 +75,7 @@ class SiteInstall {
       $read = new Input();
 
       // Ask the user what they would like to do.
-      $choice = $read->readStdin("Please make your choice: \r\n", array('', '0', '1', '2', '3'));
+      $choice = $read->readStdin("Please make your choice: \r\n", array('', '0', '1', '2', '3', '4'));
 
       switch ($choice) {
         case 0:
@@ -76,30 +83,53 @@ class SiteInstall {
           break;
         case 1:
           echo "Installing new Drupal site.\r\n";
-          $output = shell_exec('/var/www/scripts/drupal-database-install 2>&1');
+          $output = shell_exec('/var/www/scripts/drupal-database-install.sh 2>&1');
           echo $output;
           break;
         case 2:
           echo "Backing up Drupal Site.\r\n";
-          $output = shell_exec('/var/www/scripts/drupal-database-backup 2>&1');
+          $output = shell_exec('/var/www/scripts/drupal-database-backup.sh 2>&1');
           echo $output;
           echo "Site Backed Up.\r\n";
           break;
         case 3:
           echo "Backing up Drupal Site.\r\n";
-          $output = shell_exec('/var/www/scripts/drupal-database-backup 2>&1');
+          $output = shell_exec('/var/www/scripts/drupal-database-backup.sh 2>&1');
           echo $output;
           echo "Old Site Backed Up.\r\n";
           echo "Installing new Drupal site.\r\n";
-          $output = shell_exec('/var/www/scripts/drupal-database-install 2>&1');
+          $output = shell_exec('/var/www/scripts/drupal-database-install.sh 2>&1');
           echo $output;
+          break;
+        case 4:
+          // Get list of all backups.
+          $backup_files = array_filter(scandir('../backups'), function($item) {
+            return !is_dir('../backups/' . $item);
+          });
+
+          $backups = [];
+          $count = 0;
+
+          foreach ($backup_files as $backup_file) {
+            $backups[$count] = $backup_file;
+            $count++;
+          }
+
+          $database_choice = $read->readStdin("Please choose a DB tp revert to: \r\n", array_keys($backups));
+
+          if ($database_choice != NULL) {
+            echo "Reverting to Previous Backup.\r\n";
+            $output = shell_exec('/var/www/scripts/drupal-database-revert.sh ' . $backups[$database_choice] . '2>&1');
+            echo $output;
+          }
+
           break;
         default:
       }
     }
     else {
       echo "No database detected, lets try a fresh site install.\r\n";
-      $output = shell_exec('/var/www/scripts/drupal-database-install 2>&1');
+      $output = shell_exec('/var/www/scripts/drupal-database-install.sh 2>&1');
       echo $output;
     }
 
