@@ -61,6 +61,10 @@ class SiteInstall {
     if ($rowCount >= 1) {
       echo "Existing Database found.\r\nOptions:\r\n[0] Abort Site Install\r\n[1] Install New Site Anyway\r\n";
 
+      /**
+       * Input object.
+       * @var Input $read
+       */
       $read = new Input();
 
       // Ask the user what they would like to do.
@@ -82,6 +86,6 @@ class SiteInstall {
       echo $output;
     }
 
-  }
+    }
 
 }
