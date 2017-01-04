@@ -68,30 +68,33 @@ class SiteInstall {
       $read = new Input();
 
       // Ask the user what they would like to do.
-      $choice = $read->readStdin("Please make your choice: \r\n", array('', '0', '1', '2'));
+      $choice = $read->readStdin("Please make your choice: \r\n", array('', '0', '1', '2', '3'));
 
-      if ($choice == 0) {
-        echo "Keeping previously installed site.\r\n";
-      }
-      if ($choice == 1) {
-        echo "Installing new Drupal site.\r\n";
-        $output = shell_exec('/var/www/scripts/drupal-database-install 2>&1');
-        echo $output;
-      }
-      if ($choice == 2) {
-        echo "Backing up Drupal Site.\r\n";
-        $output = shell_exec('/var/www/scripts/drupal-database-backup 2>&1');
-        echo $output;
-        echo "Site Backed Up.\r\n";
-      }
-      if ($choice == 3) {
-        echo "Backing up Drupal Site.\r\n";
-        $output = shell_exec('/var/www/scripts/drupal-database-backup 2>&1');
-        echo $output;
-        echo "Old Site Backed Up.\r\n";
-        echo "Installing new Drupal site.\r\n";
-        $output = shell_exec('/var/www/scripts/drupal-database-install 2>&1');
-        echo $output;
+      switch ($choice) {
+        case 0:
+          echo "Keeping previously installed site.\r\n";
+          break;
+        case 1:
+          echo "Installing new Drupal site.\r\n";
+          $output = shell_exec('/var/www/scripts/drupal-database-install 2>&1');
+          echo $output;
+          break;
+        case 2:
+          echo "Backing up Drupal Site.\r\n";
+          $output = shell_exec('/var/www/scripts/drupal-database-backup 2>&1');
+          echo $output;
+          echo "Site Backed Up.\r\n";
+          break;
+        case 3:
+          echo "Backing up Drupal Site.\r\n";
+          $output = shell_exec('/var/www/scripts/drupal-database-backup 2>&1');
+          echo $output;
+          echo "Old Site Backed Up.\r\n";
+          echo "Installing new Drupal site.\r\n";
+          $output = shell_exec('/var/www/scripts/drupal-database-install 2>&1');
+          echo $output;
+          break;
+        default:
       }
     }
     else {
@@ -100,6 +103,6 @@ class SiteInstall {
       echo $output;
     }
 
-    }
+  }
 
 }
