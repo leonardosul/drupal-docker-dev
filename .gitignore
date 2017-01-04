@@ -2,6 +2,7 @@
 .idea
 vendor
 web
+backups/*
 composer.lock
 
 # HHVM Stuff

@@ -59,7 +59,7 @@ class SiteInstall {
     $rowCount = $request->rowCount();
 
     if ($rowCount >= 1) {
-      echo "Existing Database found.\r\nOptions:\r\n[0] Abort Site Install\r\n[1] Install New Site Anyway\r\n";
+      echo "Existing Database found.\r\nOptions:\r\n[0] Abort Site Install\r\n[1] Install New Site Anyway\r\n[2] Backup Current DB and then Install New Site\r\n";
 
       /**
        * Input object.
@@ -68,13 +68,21 @@ class SiteInstall {
       $read = new Input();
 
       // Ask the user what they would like to do.
-      $choice = $read->readStdin("Please make your choice: \r\n", array('', '0', '1'));
+      $choice = $read->readStdin("Please make your choice: \r\n", array('', '0', '1', '2'));
 
       if ($choice == 0) {
         echo "Keeping previously installed site.\r\n";
       }
       if ($choice == 1) {
-        // If we get this far we should be able to install the db, lets call the shell script.
+        echo "Installing new Drupal site.\r\n";
+        $output = shell_exec('/var/www/scripts/drupal-database-install 2>&1');
+        echo $output;
+      }
+      if ($choice == 2) {
+        echo "Backing up Drupal Site.\r\n";
+        $output = shell_exec('/var/www/scripts/drupal-database-backup 2>&1');
+        echo $output;
+        echo "Old Site Backed Up.\r\n";
         echo "Installing new Drupal site.\r\n";
         $output = shell_exec('/var/www/scripts/drupal-database-install 2>&1');
         echo $output;
