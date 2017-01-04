@@ -82,6 +82,7 @@ class SiteInstall {
         echo "Backing up Drupal Site.\r\n";
         $output = shell_exec('/var/www/scripts/drupal-database-backup 2>&1');
         echo $output;
+        echo "Site Backed Up.\r\n";
       }
       if ($choice == 3) {
         echo "Backing up Drupal Site.\r\n";
