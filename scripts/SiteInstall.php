@@ -59,7 +59,7 @@ class SiteInstall {
     $rowCount = $request->rowCount();
 
     if ($rowCount >= 1) {
-      echo "Existing Database found.\r\nOptions:\r\n[0] Abort Site Install\r\n[1] Install New Site Anyway\r\n[2] Backup Current DB and then Install New Site\r\n";
+      echo "Existing Database found.\r\nOptions:\r\n[0] Abort Site Install\r\n[1] Install New Site Anyway\r\n[2] Backup Current DB\r\n[3] Backup Current DB and then Install New Site\r\n";
 
       /**
        * Input object.
@@ -79,6 +79,11 @@ class SiteInstall {
         echo $output;
       }
       if ($choice == 2) {
+        echo "Backing up Drupal Site.\r\n";
+        $output = shell_exec('/var/www/scripts/drupal-database-backup 2>&1');
+        echo $output;
+      }
+      if ($choice == 3) {
         echo "Backing up Drupal Site.\r\n";
         $output = shell_exec('/var/www/scripts/drupal-database-backup 2>&1');
         echo $output;
