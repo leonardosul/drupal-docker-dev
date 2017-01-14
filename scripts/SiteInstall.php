@@ -137,6 +137,45 @@ class SiteInstall {
           }
 
           break;
+
+        case 5:
+          // Back up current site first.
+          echo "Backing up Current Drupal Site.\r\n";
+          $output = shell_exec('/var/www/scripts/drupal-database-backup.sh 2>&1');
+          echo $output;
+          echo "Site Backed Up.\r\n";
+
+          // Get list of all backups.
+          $backup_files = array_filter(scandir('/var/www/backups'), function($item) {
+            return !is_dir('../backups/' . $item);
+          });
+
+          // Set up arrays for choice selection.
+          $backups = [];
+          $backups_numbered = [];
+          $count = 0;
+          foreach ($backup_files as $backup_file) {
+            $backups[$count] = $backup_file;
+            $backups_numbered[] = $count . ' - ' . $backup_file;
+            $count++;
+          }
+
+          // Output some instructions.
+          $backup_list = implode(" \r\n", $backups_numbered);
+          $backup_options = implode(" \r\n", array_keys($backups));
+          echo "Backups List: \r\n";
+          echo $backup_list . " \r\n";
+          $database_choice = $read->readStdin("Please choose a DB to revert to: \r\n", $backup_options);
+
+          // If the user selects a valid choice, revert to selected database.
+          if ($database_choice != NULL) {
+            echo "Reverting to Previous Backup.\r\n";
+            $output = shell_exec('/var/www/scripts/drupal-database-revert.sh ' . $backups[$database_choice] . ' 2>&1');
+            echo $output;
+            echo "Database Revert Complete.\n";
+          }
+
+          break;
         default:
       }
     }
