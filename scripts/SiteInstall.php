@@ -75,23 +75,26 @@ class SiteInstall {
       $read = new Input();
 
       // Ask the user what they would like to do.
-      $choice = $read->readStdin("Please make your choice: \r\n", array('', '0', '1', '2', '3', '4'));
+      $choice = $read->readStdin("Please make your choice: \r\n", array('', '0', '1', '2', '3', '4', '5'));
 
       switch ($choice) {
         case 0:
           echo "Keeping previously installed site.\r\n";
           break;
+
         case 1:
           echo "Installing new Drupal site.\r\n";
           $output = shell_exec('/var/www/scripts/drupal-database-install.sh 2>&1');
           echo $output;
           break;
+
         case 2:
           echo "Backing up Drupal Site.\r\n";
           $output = shell_exec('/var/www/scripts/drupal-database-backup.sh 2>&1');
           echo $output;
           echo "Site Backed Up.\r\n";
           break;
+
         case 3:
           echo "Backing up Drupal Site.\r\n";
           $output = shell_exec('/var/www/scripts/drupal-database-backup.sh 2>&1');
@@ -101,26 +104,36 @@ class SiteInstall {
           $output = shell_exec('/var/www/scripts/drupal-database-install.sh 2>&1');
           echo $output;
           break;
+
         case 4:
           // Get list of all backups.
-          $backup_files = array_filter(scandir('../backups'), function($item) {
+          $backup_files = array_filter(scandir('/var/www/backups'), function($item) {
             return !is_dir('../backups/' . $item);
           });
 
+          // Set up arrays for choice selection.
           $backups = [];
+          $backups_numbered = [];
           $count = 0;
-
           foreach ($backup_files as $backup_file) {
             $backups[$count] = $backup_file;
+            $backups_numbered[] = $count . ' - ' . $backup_file;
             $count++;
           }
 
-          $database_choice = $read->readStdin("Please choose a DB tp revert to: \r\n", array_keys($backups));
+          // Output some instructions.
+          $backup_list = implode(" \r\n", $backups_numbered);
+          $backup_options = implode(" \r\n", array_keys($backups));
+          echo "Backups List: \r\n";
+          echo $backup_list . " \r\n";
+          $database_choice = $read->readStdin("Please choose a DB to revert to: \r\n", $backup_options);
 
+          // If the user selects a valid choice, revert to selected database.
           if ($database_choice != NULL) {
             echo "Reverting to Previous Backup.\r\n";
-            $output = shell_exec('/var/www/scripts/drupal-database-revert.sh ' . $backups[$database_choice] . '2>&1');
+            $output = shell_exec('/var/www/scripts/drupal-database-revert.sh ' . $backups[$database_choice] . ' 2>&1');
             echo $output;
+            echo "Database Revert Complete.\n";
           }
 
           break;
