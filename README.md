@@ -33,7 +33,7 @@ To install a Drupal database run composer install again:
 ````bash
 docker exec -it drupal-php composer install
 ````
-This will kick off a composer post-install-cmd that will install a Drupal DB to the drupal-mysql container. We are using a [drush alias](drupal-docker-dev/blob/master/docker/drupal-phpfpm/conf/ddd.alias.drushrc.php) for all of our drush commands.
+This will kick off a composer post-install-cmd that will install a Drupal DB to the drupal-mysql container. We are using a [drush alias](docker/drupal-phpfpm/conf/ddd.alias.drushrc.php) for all of our drush commands.
 
 We also have provided a basic CLI for backing up the Drupal database and reverting to a previous backup:
 ````bash
