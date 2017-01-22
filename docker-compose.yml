@@ -5,7 +5,8 @@ version: '2'
 services:
 
 # Nginx container.
-  nginx:
+  drupal-nginx:
+    container_name: drupal-nginx
     build:
       context: ./docker/drupal-nginx
     ports:
@@ -14,10 +15,10 @@ services:
       - drupal-php
     volumes:
       - .:/var/www
-    container_name: drupal-nginx
 
 # PHP container.
   drupal-php:
+    container_name: drupal-php
     build:
       context: ./docker/drupal-phpfpm
     ports:
@@ -25,7 +26,6 @@ services:
       - "9000:9000"
     links:
       - drupal-mysql
-    container_name: drupal-php
     env_file:
       - ./docker/drupal-phpfpm/conf/php-variables.env
     volumes:
@@ -35,13 +35,24 @@ services:
 
 # MySQL container.
   drupal-mysql:
+    container_name: drupal-mysql
     build:
       context: ./docker/drupal-mysql
     ports:
       - "3306:3306"
-    container_name: drupal-mysql
     env_file:
       - ./docker/drupal-mysql/conf/mysql-variables.env
     volumes:
       - /var/lib/mysql
       - /usr/bin
+
+# Drush container.
+  drupal-drush:
+    container_name: drupal-drush
+    build:
+      context: ./docker/drupal-drush
+    links:
+      - drupal-mysql
+    volumes_from:
+      - drupal-php
+      - drupal-mysql

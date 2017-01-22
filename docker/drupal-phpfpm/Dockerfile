@@ -29,8 +29,5 @@ RUN pecl install xdebug -y && \
 # Add drush, git and scripts to path
 ENV PATH $PATH:/var/www/vendor/drush/drush:/var/www/scripts:/usr/lib/git-core
 
-# Add drush alias for our site
-ADD ./conf/ddd.alias.drushrc.php /root/.drush/
-
 # Directory to serve files from
 WORKDIR /var/www
