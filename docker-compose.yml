@@ -53,3 +53,16 @@ services:
       context: ./docker/drupal-node
     volumes:
      - /var/run/docker.sock:/var/run/docker.sock
+     - ./docker-compose.yml:/usr/local/bin/docker-compose.yml
+     - ./docker:/usr/local/bin/docker
+
+# Drush container.
+  drupal-drush:
+    container_name: drupal-drush
+    build:
+      context: ./docker/drupal-drush
+    links:
+      - drupal-mysql
+    volumes_from:
+      - drupal-php
+      - drupal-mysql
