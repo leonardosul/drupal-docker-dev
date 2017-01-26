@@ -45,3 +45,11 @@ services:
     volumes:
       - /var/lib/mysql
       - /usr/bin
+
+# DDD-CLI container.
+  drupal-node:
+    container_name: drupal-node
+    build:
+      context: ./docker/drupal-node
+    volumes:
+     - /var/run/docker.sock:/var/run/docker.sock
