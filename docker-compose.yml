@@ -45,14 +45,3 @@ services:
     volumes:
       - /var/lib/mysql
       - /usr/bin
-
-# Drush container.
-  drupal-drush:
-    container_name: drupal-drush
-    build:
-      context: ./docker/drupal-drush
-    links:
-      - drupal-mysql
-    volumes_from:
-      - drupal-php
-      - drupal-mysql

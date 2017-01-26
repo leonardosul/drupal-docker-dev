@@ -1,0 +1,16 @@
+# Services required for Drush
+
+version: '2'
+
+services:
+
+# Drush container.
+  drupal-drush:
+    container_name: drupal-drush
+    build:
+      context: ./docker/drupal-drush
+    links:
+      - drupal-mysql
+    volumes_from:
+      - drupal-php
+      - drupal-mysql
