@@ -15,6 +15,8 @@ services:
       - drupal-php
     volumes:
       - .:/var/www
+    networks:
+      - drupal-net
 
 # PHP container.
   drupal-php:
@@ -32,6 +34,8 @@ services:
       - .:/var/www
     volumes_from:
       - drupal-mysql
+    networks:
+      - drupal-net
 
 # MySQL container.
   drupal-mysql:
@@ -45,24 +49,10 @@ services:
     volumes:
       - /var/lib/mysql
       - /usr/bin
+    networks:
+      - drupal-net
 
-# DDD-CLI container.
-  drupal-node:
-    container_name: drupal-node
-    build:
-      context: ./docker/drupal-node
-    volumes:
-     - /var/run/docker.sock:/var/run/docker.sock
-     - ./docker-compose.yml:/usr/local/bin/docker-compose.yml
-     - ./docker:/usr/local/bin/docker
-
-# Drush container.
-  drupal-drush:
-    container_name: drupal-drush
-    build:
-      context: ./docker/drupal-drush
-    links:
-      - drupal-mysql
-    volumes_from:
-      - drupal-php
-      - drupal-mysql
+# Create a network for all containers to share.
+networks:
+  drupal-net:
+    driver: bridge

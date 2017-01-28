@@ -1,4 +1,4 @@
-# Services required for Drush
+# Additional services.
 
 version: '2'
 
@@ -9,8 +9,15 @@ services:
     container_name: drupal-drush
     build:
       context: ./docker/drupal-drush
-    links:
+    external_links:
       - drupal-mysql
     volumes_from:
-      - drupal-php
-      - drupal-mysql
+      - container:drupal-php
+      - container:drupal-mysql
+    networks:
+      - drupaldockerdev_drupal-net
+
+# Hook into network existing network.
+networks:
+  drupaldockerdev_drupal-net:
+    external: true
