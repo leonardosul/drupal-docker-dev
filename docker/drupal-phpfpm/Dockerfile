@@ -11,23 +11,12 @@ RUN apt-get update && \
     apt-get install git-core wget -y && \
     mkdir -p /var/www/web
 
-# Install Composer
-RUN echo 'deb http://packages.dotdeb.org jessie all' >> /etc/apt/sources.list && \
-    echo 'deb-src http://packages.dotdeb.org jessie all' >> /etc/apt/sources.list && \
-    wget https://www.dotdeb.org/dotdeb.gpg && \
-    apt-key add dotdeb.gpg && \
-    rm dotdeb.gpg && \
-    curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
 # Install xdebug
 RUN pecl install xdebug -y && \
     echo "zend_extension=$(find /usr/local/lib/php/extensions/ -name xdebug.so)" > /usr/local/etc/php/conf.d/xdebug.ini && \
     echo "xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/xdebug.ini && \
     echo "xdebug.remote_port=9001" >> /usr/local/etc/php/conf.d/xdebug.ini && \
     echo "xdebug.remote_autostart=true" >> /usr/local/etc/php/conf.d/xdebug.ini
-
-# Add drush, git and scripts to path
-ENV PATH $PATH:/var/www/vendor/drush/drush:/var/www/scripts:/usr/lib/git-core
 
 # Directory to serve files from
 WORKDIR /var/www

@@ -39,7 +39,6 @@
     "drupal-scaffold": "DrupalComposer\\DrupalScaffold\\Plugin::scaffold",
     "drupal-install": "DrupalDockerDev\\Scripts\\SiteInstall::install",
     "post-install-cmd": [
-      "@drupal-install"
     ],
     "post-update-cmd": [
       "@drupal-scaffold"

@@ -17,6 +17,19 @@ services:
     networks:
       - drupaldockerdev_drupal-net
 
+# Composer container.
+  drupal-composer:
+    container_name: drupal-composer
+    build:
+      context: ./docker/drupal-composer
+    volumes:
+      - .:/app
+    volumes_from:
+      - container:drupal-php
+      - container:drupal-mysql
+    networks:
+      - drupaldockerdev_drupal-net
+
 # Hook into network existing network.
 networks:
   drupaldockerdev_drupal-net:
